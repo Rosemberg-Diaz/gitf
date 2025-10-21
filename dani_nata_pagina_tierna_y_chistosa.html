@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dani & Nata — Manual Oficial 💖</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #fff7fb;
+    --card: #ffffff;
+    --ink: #2a2440;
+    --soft: #f7e8ff;
+    --accent: #ff77aa;
+    --accent-2: #7c4dff;
+    --ok: #22c55e;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+    --muted:#7a718d;
+    --shadow: 0 10px 25px rgba(124,77,255,.15);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background: radial-gradient(1200px 800px at 100% -10%, #ffe1ee 0%, transparent 60%),
+                radial-gradient(1000px 700px at -10% 110%, #e7dbff 0%, transparent 60%),
+                var(--bg);
+    color:var(--ink);
+  }
+  header{
+    display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+    padding:28px 16px 8px;
+  }
+  .logo{font-size:32px;line-height:1}
+  h1{margin:0;font-size:clamp(24px,3.2vw,36px)}
+  .subtitle{margin-top:4px;color:var(--muted);font-size:14px;text-align:center}
+
+  .container{max-width:980px;margin:0 auto;padding:18px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px;
+    position:relative;overflow:hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover{transform: translateY(-2px); box-shadow:0 16px 40px rgba(124,77,255,.18)}
+  .card h2{margin:0 0 10px;font-size:18px}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--soft);border-radius:999px;padding:6px 10px;font-size:12px}
+  .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .btn{
+    appearance:none;border:0;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600;
+    background: linear-gradient(135deg,var(--accent),#ff9ac3);
+    color:white;box-shadow:0 8px 20px rgba(255,119,170,.3);
+    transition: transform .1s ease;
+  }
+  .btn:active{transform: translateY(1px)}
+  .btn.secondary{background:linear-gradient(135deg,var(--accent-2),#9b7bff)}
+  .hint{font-size:12px;color:var(--muted)}
+  .input{width:100%;padding:12px 14px;border:2px solid #eee;border-radius:12px;font-size:14px;outline:none}
+  .input:focus{border-color:#d3c6ff;box-shadow:0 0 0 4px rgba(124,77,255,.12)}
+  .kudos{font-weight:700;color:var(--accent)}
+
+  /* Slider */
+  .slider{width:100%}
+  input[type=range]{-webkit-appearance:none;width:100%;height:14px;background:#f0eaff;border-radius:999px;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#ff7eb6,#ffb5d9);box-shadow:0 6px 14px rgba(255,126,182,.35);cursor:pointer;border:3px solid #fff}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#ff7eb6,#ffb5d9);border:3px solid #fff}
+  .meter{height:10px;background:#f4ecff;border-radius:999px;position:relative;overflow:hidden}
+  .fill{position:absolute;inset:0;width:0;background:linear-gradient(90deg,#ff8dbd,#ffb1d2,#ffd1e6);transition:width .25s ease}
+  .percent{font-weight:700}
+
+  /* Hearts burst */
+  .burst{position:absolute;inset:0;pointer-events:none}
+  .heart{position:absolute;font-size:18px;opacity:0;animation: floatUp 1200ms ease-out forwards}
+  @keyframes floatUp{0%{transform:translateY(10px) scale(.8) rotate(0);opacity:0}20%{opacity:1}100%{transform:translateY(-140px) scale(1.4) rotate(12deg);opacity:0}}
+
+  /* Secret message */
+  .secret{display:none;margin-top:10px;border-left:4px solid var(--accent-2);padding:10px 12px;background:#f5f2ff;border-radius:12px}
+  .secret.show{display:block;animation:pop .25s ease}
+  @keyframes pop{from{transform:scale(.98);opacity:.4}to{transform:scale(1);opacity:1}}
+
+  /* Quiz */
+  .quiz-item{background:#faf7ff;border:1px solid #eee;border-radius:14px;padding:12px;margin:8px 0}
+  .quiz-item h3{font-size:15px;margin:0 0 8px}
+  .opt{display:flex;align-items:center;gap:8px;margin:6px 0}
+  .score{font-weight:700}
+  .result{display:none;margin-top:12px;border-radius:14px;padding:14px}
+  .result.show{display:block}
+
+  /* Confetti fragments */
+  .confetti{position:fixed;left:0;top:0;width:100%;height:0;pointer-events:none;overflow:visible}
+  .confetti i{position:absolute;width:10px;height:16px;border-radius:2px;opacity:0;animation:drop 1200ms ease-out forwards}
+  @keyframes drop{0%{transform:translateY(-20px) rotate(0);opacity:0}10%{opacity:1}100%{transform:translateY(120vh) rotate(340deg);opacity:0}}
+
+  footer{padding:24px 16px;text-align:center;color:var(--muted)}
+  /* Mobile-first tweaks */
+  .opt input{accent-color:var(--accent-2)}
+  .opt{align-items:flex-start}
+  .opt:hover{background:#f8f5ff;border-radius:12px}
+  @media (max-width: 560px){
+    .container{padding:12px}
+    .grid{grid-template-columns:1fr}
+    .card{padding:14px}
+    .row{gap:10px}
+    .btn{width:100%}
+    .quiz-item h3{font-size:14px}
+    .opt{padding:12px;border:1.5px solid #eee;border-radius:14px}
+    .chip{font-size:11px}
+    h1{font-size:24px}
+    .card h2{font-size:17px}
+  }
+  /* ============== Extras: Contadores, Raspa, Carta ============== */
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat{background:#faf7ff;border:1px solid #eee;border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center}
+  .stat .label{font-size:13px;color:var(--muted)}
+  .stat .count{font-weight:700;font-size:20px}
+
+  .scratch{position:relative;border-radius:14px;overflow:hidden;border:1px dashed #d8ccff;background:#fbf9ff;padding:16px}
+  .scratch .prize{position:relative;z-index:0;text-align:center;font-weight:600}
+  .scratch canvas{position:absolute;top:0;left:0;right:0;bottom:34px;z-index:2;width:100%;height:auto}
+  .scratch .tip{margin-top:8px;font-size:12px;color:var(--muted);text-align:center;position:relative;z-index:3}
+
+  .typewriter{min-height:80px;font-size:18px;line-height:1.5;white-space:pre-wrap}
+  .cursor{display:inline-block;width:10px;background:currentColor;animation:blink 1s step-end infinite}
+  @keyframes blink{50%{background:transparent}}
+
+  .space{position:relative;height:150px;margin-top:10px;border-radius:14px;background:linear-gradient(180deg,#1b1b3a,#2a2550);box-shadow:var(--shadow);overflow:hidden}
+  .moon{position:absolute;right:10px;bottom:6px;top:auto;font-size:120px;filter:drop-shadow(0 0 10px #fff7);z-index:1}
+  .turtle{position:absolute;left:12px;bottom:12px;font-size:42px;z-index:2;}
+  .turtle.go{animation:walkToMoon 4s linear forwards}
+  @keyframes walkToMoon{from{left:12px;bottom:12px;} to{left:calc(100% - 110px);bottom:22px;}}
+
+  @media (max-width:560px){
+    .stats{grid-template-columns:1fr}
+    .typewriter{font-size:16px}
+    .space{height:110px}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">💘</div>
+    <div>
+      <h1>Manual Oficial de Dani para amar a Nata</h1>
+      <div class="subtitle">Garantía de mimos ilimitados y chistes malos aprobados por el Ministerio de Cosas Bonitas</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="grid">
+
+      <!-- Amorímetro -->
+      <section class="card" id="amorimetro">
+        <div class="row" style="justify-content:space-between">
+          <h2>Amorímetro ❤️</h2>
+          <span class="chip">Desliza para indicar tu amor</span>
+        </div>
+        <p class="hint">Si lo pones en <b>100%</b> pasan cositas mágicas ✨</p>
+        <div class="meter" aria-hidden="true"><div class="fill" id="fill"></div></div>
+        <div class="row" style="margin-top:10px">
+          <input class="slider" id="rangeLove" type="range" min="0" max="100" value="73" aria-label="Porcentaje de amor de Nata a Dani"/>
+          <div><span class="percent" id="percent">73%</span></div>
+        </div>
+        <div class="burst" id="burst"></div>
+      </section>
+
+      <!-- Mensaje secreto -->
+      <section class="card">
+        <div class="row" style="justify-content:space-between">
+          <h2>Mensaje secreto 🔒</h2>
+          <span class="chip">Pista: <b>Lugar de nuestro primer beso</b></span>
+        </div>
+        <label for="clave" class="hint">Escribe la palabra secreta tal cual</label>
+        <input id="clave" class="input" placeholder="Escribe la palabra…" autocomplete="off"/>
+        <div class="row" style="margin-top:10px;gap:8px">
+          <button class="btn" id="btnDesbloquear">Desbloquear</button>
+          <button class="btn secondary" id="btnLimpiar" title="Limpiar">Reiniciar</button>
+        </div>
+        <div id="secret" class="secret" role="status" aria-live="polite">
+          <strong>Para Nata:</strong>
+          <p style="margin:8px 0 0 0">Mi tesorito, gracias por todo lo que haces, gracias por ser el mas feli. Te amo con todo mi corazon, eres el amor de mi vida porque quiero estar para siempre contigo, haberme ganado tu amor es lo mas hermoso que he sentido en toda mi vida, nunca olvides que tienes a tu noviecito que te ama y que esta muy orgulloso de ti y haria todo por hacerte sonreir hasta hacer una pagina web a las 11 de la noche solo porque quiere sacarte una sonrisita jijiji</p>
+        </div>
+      </section>
+
+      <!-- Quiz -->
+      <section class="card" id="quiz">
+        <div class="row" style="justify-content:space-between">
+          <h2>Cuestionario de Amor 💞</h2>
+          <span class="chip">Dani & Nata trivia</span>
+        </div>
+
+        <div class="quiz-item" data-q="1">
+          <h3>1) Nuestra fecha de aniversario</h3>
+          <label class="opt"><input type="radio" name="q1" value="6 de Julio"> 6 de Julio</label>
+          <label class="opt"><input type="radio" name="q1" value="7 de Junio"> 7 de Junio</label>
+          <label class="opt"><input type="radio" name="q1" value="14 de Febrero"> 14 de Febrero</label>
+          <label class="opt"><input type="radio" name="q1" value="1 de Mayo"> 1 de Mayo</label>
+        </div>
+
+        <div class="quiz-item" data-q="2">
+          <h3>2) ¿Qué decía el video que hizo que nos confesaramos todo?</h3>
+          <label class="opt"><input type="radio" name="q2" value="Preciosa"> "Preciosa"</label>
+          <label class="opt"><input type="radio" name="q2" value="Hermosa"> "Hermosa"</label>
+          <label class="opt"><input type="radio" name="q2" value="Guapísima"> "Guapísima"</label>
+          <label class="opt"><input type="radio" name="q2" value="Encantadora"> "Encantadora"</label>
+        </div>
+
+        <div class="quiz-item" data-q="3">
+          <h3>3) ¿Cuál es el animalito que me recuerda a ti?</h3>
+          <label class="opt"><input type="radio" name="q3" value="Mapachito"> Mapachito</label>
+          <label class="opt"><input type="radio" name="q3" value="Tortuguia"> Tortuguia</label>
+          <label class="opt"><input type="radio" name="q3" value="Koalita"> Koalita</label>
+          <label class="opt"><input type="radio" name="q3" value="Gatito"> Gatito</label>
+        </div>
+
+        <div class="quiz-item" data-q="4">
+          <h3>4) ¿La manera correcta de referirse a algo que no es grande?</h3>
+          <label class="opt"><input type="radio" name="q4" value="Quichito"> Quichito</label>
+          <label class="opt"><input type="radio" name="q4" value="pequeño"> pequeño</label>
+          <label class="opt"><input type="radio" name="q4" value="chiquito"> chiquito</label>
+          <label class="opt"><input type="radio" name="q4" value="mini"> mini</label>
+        </div>
+
+        <div class="quiz-item" data-q="5">
+          <h3>5) ¿Cuál fue el primer regalito que te di?</h3>
+          <label class="opt"><input type="radio" name="q5" value="Pulserita"> Pulserita</label>
+          <label class="opt"><input type="radio" name="q5" value="Jirafita y Saco"> Jirafita y Saco</label>
+          <label class="opt"><input type="radio" name="q5" value="Cadenita"> Cadenita</label>
+          <label class="opt"><input type="radio" name="q5" value="Girasol"> Girasol</label>
+        </div>
+
+        <div class="quiz-item" data-q="6">
+          <h3>6) ¿Qué me alborota más?</h3>
+          <label class="opt"><input type="radio" name="q6" value="Tus suspiros"> Tus "suspiros"</label>
+          <label class="opt"><input type="radio" name="q6" value="Mirada de ganas"> Mirada de ganas</label>
+          <label class="opt"><input type="radio" name="q6" value="Agarrarte"> Agarrarte</label>
+          <label class="opt"><input type="radio" name="q6" value="Tu voz"> Tu voz</label>
+        </div>
+
+        <div class="quiz-item" data-q="7">
+          <h3>7) ¿Cuándo fue el primer "te amo"?</h3>
+          <label class="opt"><input type="radio" name="q7" value="5/2/2024"> 5/2/2024</label>
+          <label class="opt"><input type="radio" name="q7" value="6/7/2024"> 6/7/2024</label>
+          <label class="opt"><input type="radio" name="q7" value="14/2/2024"> 14/2/2024</label>
+          <label class="opt"><input type="radio" name="q7" value="1/1/2024"> 1/1/2024</label>
+        </div>
+
+        <div class="quiz-item" data-q="8">
+          <h3>8) Tú siempre serás mi… (selección múltiple)</h3>
+          <label class="opt"><input type="checkbox" name="q8" value="Princesita"> Princesita</label>
+          <label class="opt"><input type="checkbox" name="q8" value="niña"> niña</label>
+          <label class="opt"><input type="checkbox" name="q8" value="todo"> todo</label>
+          <label class="opt"><input type="checkbox" name="q8" value="coronita"> coronita</label>
+          <label class="opt"><input type="checkbox" name="q8" value="tesorito"> tesorito</label>
+          <label class="opt"><input type="checkbox" name="q8" value="amix"> amix</label>
+        </div>
+
+        <div class="quiz-item" data-q="9">
+          <h3>9) Mis apodos favoritos</h3>
+          <label class="opt"><input type="radio" name="q9" value="Cielito y amorcito"> Cielito y amorcito</label>
+          <label class="opt"><input type="radio" name="q9" value="Amorcito y mi vida"> Amorcito y mi vida</label>
+          <label class="opt"><input type="radio" name="q9" value="Cielito y mi vida"> Cielito y mi vida</label>
+          <label class="opt"><input type="radio" name="q9" value="Cosita y cielo"> Cosita y cielo</label>
+        </div>
+
+        <div class="quiz-item" data-q="10">
+          <h3>10) Desde que te tengo en mi vida soy el más feliz</h3>
+          <label class="opt"><input type="radio" name="q10" value="verdadero"> Verdadero</label>
+          <label class="opt"><input type="radio" name="q10" value="falso"> Falso</label>
+        </div>
+
+        <div class="row" style="margin-top:10px;gap:8px">
+          <button class="btn" id="btnCalificar">Calificar</button>
+          <button class="btn secondary" id="btnReiniciarQuiz">Reiniciar quiz</button>
+        </div>
+        <div id="resultado" class="result" role="alert"></div>
+      </section>
+
+      <!-- Contador de momentos -->
+      <section class="card" id="momentos">
+        <div class="row" style="justify-content:space-between; margin-bottom:12px">
+          <h2>Contador de momentos ⏳</h2>
+          <span class="chip">Tiempo bonito</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="label">Días desde el primer "te amo"</div><div class="count" id="daysTeAmo">—</div></div>
+          <div class="stat"><div class="label">Días para el siguiente aniversario</div><div class="count" id="daysNextAnni">—</div></div>
+          <div class="stat"><div class="label">Días desde que dijimos "amor de mi vida" </div><div class="count" id="daysLoveLife">—</div></div>
+          <div class="stat"><div class="label">Días que faltan para hacer todo oficial</div><div class="count">???</div></div>
+        </div>
+      </section>
+
+      <!-- Raspa para revelar -->
+      <section class="card" id="raspa">
+        <div class="row" style="justify-content:space-between">
+          <h2>Raspa para revelar 🎟️</h2>
+          <span class="chip">Cupón tierno</span>
+        </div>
+        <div class="scratch">
+          <div class="prize" id="scratchContent">Cupón: Te calmo ese antojito hoy mismo 🍫☕🍰 — redímelo con un beshito</div>
+          <canvas id="scratchCanvas" aria-label="Zona para raspar"></canvas>
+          <div class="tip">Raspa con tu dedo (o mouse) para revelar el cupón</div>
+        </div>
+      </section>
+
+      <!-- Carta con máquina de escribir -->
+      <section class="card" id="carta">
+        <div class="row" style="justify-content:space-between">
+          <h2>Carta final 💌</h2>
+          <span class="chip">Se escribe solita</span>
+        </div>
+        <div class="row" style="margin-top:6px"><button class="btn" id="btnType">Escribir cartita</button></div>
+        <div class="typewriter" id="tw"></div>
+        <div class="space">
+          <div class="moon">🌕</div>
+          <div class="turtle" id="turtle">🐢</div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <footer>
+    Hecho con 🫶 por <span class="kudos">Dani</span> para <span class="kudos">Nata</span>. — Si llegaste hasta aquí, mereces un cocholatito.
+  </footer>
+
+  <div class="confetti" id="confetti"></div>
+
+<script>
+  /* ==================== Amorímetro ==================== */
+  const range = document.getElementById('rangeLove');
+  const percent = document.getElementById('percent');
+  const fill = document.getElementById('fill');
+  const burst = document.getElementById('burst');
+  const confettiLayer = document.getElementById('confetti');
+
+  function updateMeter(val){
+    percent.textContent = val + '%';
+    fill.style.width = val + '%';
+  }
+
+  function heartBurst(x){
+    // create 20 floating hearts
+    for(let i=0;i<20;i++){
+      const span = document.createElement('span');
+      span.className='heart';
+      span.textContent = ['💖','💘','💝','💗'][i%4];
+      const dx = (Math.random()*120 - 60);
+      const left = x + dx;
+      const top = 110 + Math.random()*10;
+      span.style.left = Math.max(10, Math.min(window.innerWidth-10, left)) + 'px';
+      span.style.bottom = '0px';
+      span.style.animationDelay = (Math.random()*0.35)+'s';
+      span.style.transform = `translateY(0) translateX(${dx}px)`;
+      burst.appendChild(span);
+      setTimeout(()=>span.remove(), 1600);
+    }
+  }
+
+  function dropConfetti(){
+    const colors = ['#ff77aa','#7c4dff','#ffd166','#06d6a0','#80ed99','#f78c6b'];
+    const count = 140;
+    for(let i=0;i<count;i++){
+      const piece = document.createElement('i');
+      piece.style.left = Math.random()*100 + 'vw';
+      piece.style.top = '-10px';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.transform = `rotate(${Math.random()*360}deg)`;
+      piece.style.animationDelay = (Math.random()*0.5)+'s';
+      piece.style.opacity = 0;
+      confettiLayer.appendChild(piece);
+      setTimeout(()=>piece.remove(), 1600);
+    }
+  }
+
+  updateMeter(range.value);
+  range.addEventListener('input', e=>{
+    const v = parseInt(e.target.value,10);
+    updateMeter(v);
+  });
+  range.addEventListener('change', e=>{
+    const v = parseInt(e.target.value,10);
+    if(v===100){
+      dropConfetti();
+      heartBurst(e.target.getBoundingClientRect().left + (e.target.offsetWidth * v/100));
+    }
+  });
+
+  /* ==================== Mensaje secreto ==================== */
+  const SECRET = "D'amore"; // debe escribirse exactamente así
+  const inputClave = document.getElementById('clave');
+  const btnDes = document.getElementById('btnDesbloquear');
+  const btnLimpiar = document.getElementById('btnLimpiar');
+  const secretBox = document.getElementById('secret');
+
+  function unlock(){
+    const val = inputClave.value.trim();
+    if(val === SECRET){
+      secretBox.classList.add('show');
+      dropConfetti();
+    } else {
+      secretBox.classList.remove('show');
+      alert('Pista extra: empieza con D y tiene comillita 😉');
+    }
+  }
+  btnDes.addEventListener('click', unlock);
+  inputClave.addEventListener('keydown', (e)=>{ if(e.key==='Enter') unlock(); });
+  btnLimpiar.addEventListener('click',()=>{ inputClave.value=''; secretBox.classList.remove('show'); inputClave.focus(); });
+
+  /* ==================== Quiz ==================== */
+  const answers = {
+    q1: '6 de Julio',
+    q2: 'Preciosa',
+    q3: 'Mapachito',
+    q4: 'Quichito',
+    q5: 'Pulserita',
+    q6: 'Tus suspiros',
+    q7: '5/2/2024',
+    q8: ['Princesita','niña','todo','coronita','tesorito'], // todas verdaderas
+    q9: 'Cielito y amorcito',
+    q10: 'verdadero'
+  };
+
+  function gradeQuiz(){
+    let score = 0;
+    // q1..q7, q9..q10 (radios)
+    ['q1','q2','q3','q4','q5','q6','q7','q9','q10'].forEach(q=>{
+      const checked = document.querySelector(`input[name="${q}"]:checked`);
+      if(checked && checked.value === answers[q]) score++;
+    });
+    // q8 (checkbox multiple)
+    const selected = Array.from(document.querySelectorAll('input[name="q8"]:checked')).map(el=>el.value);
+    const setA = new Set(selected);
+    const setB = new Set(answers.q8);
+    const allCorrectSelected = answers.q8.every(v=>setA.has(v));
+    const noWrongSelected = selected.every(v=>setB.has(v));
+    if(allCorrectSelected && noWrongSelected) score++;
+
+    const result = document.getElementById('resultado');
+    let premio = '';
+    if(score === 10){
+      premio = '🎉 Premio: 3 horas atras de kiwi.';
+    } else if(score >= 8){
+      premio = '😘 Premio: Un beshito en la boquita.';
+    } else if(score === 7){
+      premio = '🥹 Premio: Beso en la frentesita.';
+    } else {
+      premio = '💸 Premio: Me tiene que mandar 50 lukas por sacar menos de 7.';
+    }
+
+    const tone = score===10? 'var(--ok)' : score>=8? 'var(--accent-2)' : score===7? 'var(--warn)' : 'var(--bad)';
+
+    result.className = 'result show';
+    result.style.background = '#ffffff';
+    result.style.border = `2px dashed ${tone}`;
+    result.innerHTML = `<div class="row" style="justify-content:space-between"><div><div class="score">Puntaje: ${score}/10</div><div>${premio}</div></div><button class="btn" id="btnConfetti">Festejar</button></div>`;
+
+    document.getElementById('btnConfetti').addEventListener('click',()=>{ dropConfetti(); });
+    dropConfetti();
+  }
+
+  document.getElementById('btnCalificar').addEventListener('click', gradeQuiz);
+  document.getElementById('btnReiniciarQuiz').addEventListener('click', ()=>{
+    document.querySelectorAll('#quiz input').forEach(i=>{ i.checked=false; });
+    const result = document.getElementById('resultado');
+    result.classList.remove('show');
+    result.innerHTML='';
+  });
+  /* ==================== Contadores ==================== */
+  function parseDMY(str){ // admite 5/2/2024 (dd/mm/yyyy)
+    const [d,m,y] = str.split('/').map(n=>parseInt(n,10));
+    return new Date(y, m-1, d);
+  }
+  function daysBetween(a,b){
+    const ms = Math.abs(b.setHours(0,0,0,0) - a.setHours(0,0,0,0));
+    return Math.floor(ms/86400000);
+  }
+  function daysSince(dateStr){
+    const start = parseDMY(dateStr);
+    const today = new Date();
+    return daysBetween(start, today);
+  }
+  function daysUntilNextAnniversary(month, day){ // month: 1-12
+    const today = new Date();
+    const year = today.getFullYear();
+    let next = new Date(year, month-1, day);
+    if(next.setHours(0,0,0,0) < today.setHours(0,0,0,0)){
+      next = new Date(year+1, month-1, day);
+    }
+    return daysBetween(today, next);
+  }
+  document.getElementById('daysTeAmo').textContent = daysSince('5/2/2024');
+  document.getElementById('daysNextAnni').textContent = daysUntilNextAnniversary(7,6);
+  // 26/08/2023
+  (function(){
+    const d = new Date(2023,7,26);
+    const today = new Date();
+    document.getElementById('daysLoveLife').textContent = daysBetween(d, today);
+  })();
+
+  /* ==================== Raspa para revelar ==================== */
+  (function(){
+    const canvas = document.getElementById('scratchCanvas');
+    const ctx = canvas.getContext('2d');
+    function resize(){
+      const box = canvas.parentElement.getBoundingClientRect();
+      canvas.width = Math.max(280, canvas.clientWidth || box.width);
+      canvas.height = canvas.clientHeight || Math.max(200, box.height - 34); // deja ver la pista
+      // capa a raspar
+      const grad = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+      grad.addColorStop(0,'#c8b6ff');
+      grad.addColorStop(1,'#9b7bff');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.globalCompositeOperation = 'destination-out';
+    }
+    let scratching=false;
+    function scratch(x,y){
+      ctx.beginPath();
+      ctx.arc(x, y, 18, 0, Math.PI*2);
+      ctx.fill();
+    }
+    function pointerPos(e){
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches? e.touches[0].clientY : e.clientY;
+      return {x: clientX - rect.left, y: clientY - rect.top};
+    }
+    function percentCleared(){
+      try{
+        const img = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+        let cleared=0;
+        for(let i=3;i<img.length;i+=4){ if(img[i]===0) cleared++; }
+        return cleared / (img.length/4) * 100;
+      }catch(err){ return 0; }
+    }
+    function end(){
+      scratching=false;
+      if(percentCleared() > 55){
+        canvas.remove();
+        dropConfetti();
+      }
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    canvas.addEventListener('pointerdown', e=>{ scratching=true; scratch(...Object.values(pointerPos(e))); });
+    canvas.addEventListener('pointermove', e=>{ if(!scratching) return; scratch(...Object.values(pointerPos(e))); });
+    window.addEventListener('pointerup', end);
+    canvas.addEventListener('touchstart', e=>{ scratching=true; scratch(...Object.values(pointerPos(e))); }, {passive:true});
+    canvas.addEventListener('touchmove', e=>{ if(!scratching) return; scratch(...Object.values(pointerPos(e))); }, {passive:true});
+    window.addEventListener('touchend', end, {passive:true});
+  })();
+
+  /* ==================== Carta con máquina de escribir ==================== */
+(function(){
+  const text = 'Te amo de aqui a la luna en pasitos de tortuguia';
+  const el = document.getElementById('tw');
+  const turtle = document.getElementById('turtle');
+  const btn = document.getElementById('btnType');
+  let started = false;
+  function startTyping(){
+    if(started) return; started = true; btn.disabled = true;
+    const cursor = document.createElement('span');
+    cursor.className='cursor';
+    el.textContent='';
+    el.appendChild(cursor);
+    let i=0;
+    (function type(){
+      if(i < text.length){
+        cursor.insertAdjacentText('beforebegin', text[i++]);
+        setTimeout(type, 45 + Math.random()*60);
+      } else {
+        cursor.remove();
+        turtle.classList.add('go');
+        dropConfetti();
+      }
+    })();
+  }
+  if(btn) btn.addEventListener('click', startTyping);
+})();
+</script>
+</body>
+</html>
